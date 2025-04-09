@@ -1,0 +1,138 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e6ecf0;
+    color: #14171a;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #b4e783;
+    margin: 1rem 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+form {
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccd6dd;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    resize: none;
+}
+
+button {
+    background-color: #50a10d;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #46913f;
+}
+
+.roar-card {
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.roar-card p {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.roar-card .likes {
+    font-size: 0.875rem;
+    color: #657786;
+}
+
+.roar-card ul li {
+    background: #f5f8fa;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.like-button, .toggle-replies-button {
+    background: none;
+    border: none;
+    color: #127037;
+    font-size: 0.875rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.like-button:hover, .toggle-replies-button:hover {
+    background-color: #e8f5fe;
+    color: #46913f;
+}
+
+.toggle-replies-button {
+    margin-top: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    .container {
+        width: 95%;
+    }
+
+    form, .roar-card {
+        padding: 0.75rem;
+    }
+
+    button {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    textarea {
+        width: 90%;
+        padding: 0.75rem;
+        border: 1px solid #ccd6dd;
+        border-radius: 4px;
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+        resize: none;
+        box-sizing: border-box; /* Ensures padding and border are included in width */
+    }
+}
