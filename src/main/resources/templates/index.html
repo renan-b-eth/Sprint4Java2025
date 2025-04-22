@@ -1,67 +1,90 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>roar</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            lottie.loadAnimation({
-                container: document.getElementById('lottie-logo'),
-                renderer: 'svg',
-                loop: true,
-                autoplay: true,
-                path: '/animations/roar.json'
-            });
-        });
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odontoprev - Dentistas Disponíveis</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        h1 {
+            margin-top: 20px;
+        }
+        .btn-editar {
+            background-color: yellow;
+        }
+        .btn-deletar {
+            background-color: red;
+            color: white;
+        }
+        table {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    <div id="lottie-logo" style="width: 200px; height: 200px;"></div>
-    <img src="/animations/name-logo.png" alt="Logo" style="height: 200px; margin-top: -100px;">
-</div>
-
-<select id="locales">
-    <option value=""></option>
-    <!--<option value="en" th:text="#(lang.eng}"></option> <option value="de"  th:text="#{lang.de)"></option>-->
-</select>
-
-
-
 <div class="container">
-    <div>
-        <!--AQUI TENTEI DE OUTRA MANEIRA -->
-        <!--<h2 th:text="#{language.message}">Post a roar</h2>-->
-        <!--<span th:text="#{language.change}"></span>-->
-        <form action="/roar" method="post">
-            <textarea name="content" rows="4" placeholder="What's happening?" required
-                      style="width: 100%; box-sizing: border-box;"></textarea>
-            <button type="submit">Roar</button>
-        </form>
-    </div>
-    <div>
-        <button id="id-botao">Login via Github</button>
-    </div>
+    <h1>Dentistas Disponíveis</h1>
+    <a href="#" class="btn btn-primary">Novo Dentista</a>
 
-    <h2>Timeline</h2>
-    <div th:each="roar : ${roars}" class="roar-card">
-        <p  th:text="${roar.username +':'}">Username</p>
-        <p th:text="${roar.content}">This is a roar</p>
-        <p class="likes">
-            Likes: <span th:text="${roar.likes}">0</span> |
-        </p>
-        <form action="/like" method="post" style="display: inline; text-align: right;">
-            <input type="hidden" name="roarId" th:value="${roar.id}"/>
-            <button type="submit" class="like-button">
-                <i class="fas fa-heart"></i> Like
-            </button>
-        </form>
-    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Especialidade</th>
+            <th>CRO</th>
+            <th>Taxa de Sinistros</th>
+            <th>Score</th>
+            <th>Endereço</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>Dr. Bittencourt</td>
+            <td>Ortodontia</td>
+            <td>12345</td>
+            <td>5.0</td>
+            <td>4.82</td>
+            <td>Rua do Sorrisos, 45, Sala 2, Jardins, São Paulo - SP. 01420-000</td>
+            <td>
+                <a href="#" class="btn btn-editar">Editar</a>
+                <a href="#" class="btn btn-deletar">Deletar</a>
+            </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Ana Carolina Diaz</td>
+            <td>Clínico Geral</td>
+            <td>67890</td>
+            <td>2.0</td>
+            <td>5.0</td>
+            <td>Rua do Sorrisos, 45, Sala 2, Jardins, São Paulo - SP. 01420-000</td>
+            <td>
+                <a href="#" class="btn btn-editar">Editar</a>
+                <a href="#" class="btn btn-deletar">Deletar</a>
+            </td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Dr. Rafael Lima</td>
+            <td>Endodontia</td>
+            <td>54321</td>
+            <td>10.0</td>
+            <td>3.58</td>
+            <td>Rua da Saúde, 789, Vila Mariana, São Paulo - SP. 04101-000</td>
+            <td>
+                <a href="#" class="btn btn-editar">Editar</a>
+                <a href="#" class="btn btn-deletar">Deletar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
