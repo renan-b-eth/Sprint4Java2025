@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Odontoprev - Cadastro</title>
+    <meta name="description" content="Cadastro para o sistema de gestão de dentistas da Odontoprev" />
+    <meta name="author" content="Odontoprev" />
+
+    <meta property="og:title" content="Odontoprev - Cadastro" />
+    <meta property="og:description" content="Cadastro para o sistema de gestão de dentistas da Odontoprev" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f9fafb;
+  color: #111827;
+  line-height: 1.5;
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.app-menu {
+  background-color: #1f2937;
+  color: white;
+  padding: 0.5rem 1rem;
+}
+
+.app-menu-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app-icon {
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.app-icon:hover {
+  background-color: #374151;
+}
+
+.app-links {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.app-links::-webkit-scrollbar {
+  display: none;
+}
+
+.app-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.app-links a:hover {
+  text-decoration: underline;
+}
+
+.main-nav {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-right: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #6b7280;
+  font-size: 0.875rem;
+  padding: 0.75rem 0;
+}
+
+.nav-link:hover {
+  color: #111827;
+}
+
+.nav-link.active {
+  color: #111827;
+  font-weight: 500;
+  border-bottom: 2px solid #3b82f6;
+}
+
+.main-content {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.content-header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.btn-icon {
+  padding: 0.5rem;
+  background-color: transparent;
+  color: #6b7280;
+}
+
+.btn-edit:hover {
+  color: #3b82f6;
+}
+
+.btn-delete:hover {
+  color: #ef4444;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.search-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-input {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.search-btn {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #2563eb;
+}
+
+.card-body {
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.dentista-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.dentista-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.dentista-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+}
+
+.dentista-table tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Estilos para paginação */
+.card-footer {
+  padding: 1rem;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: end;
+}
+
+.pagination {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.pagination-btn {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  background-color: white;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.pagination-btn:hover:not(.disabled) {
+  background-color: #f3f4f6;
+}
+
+.pagination-btn.active {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.pagination-btn.disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.auth-content {
+  min-height: calc(100vh - 40px); /* Altura da tela menos a altura do app-menu */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem 1rem;
+}
+
+.auth-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 2rem;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #3b82f6;
+  margin-bottom: 1.5rem;
+}
+
+.auth-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.auth-form {
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+  transition: border-color 0.15s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
+}
+
+.form-remember,
+.form-terms {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.form-terms {
+  justify-content: flex-start;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid #d1d5db;
+}
+
+.forgot-link {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.auth-footer a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .content-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  .card-footer {
+    justify-content: center;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .auth-container {
+    padding: 1rem;
+  }
+
+  .auth-card {
+    padding: 1.5rem;
+  }
+}
+    </style>
+</head>
+
+<body>
+<div class="app">
+    <div class="app-menu">
+        <div class="app-menu-container">
+            <div class="app-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+            </div>
+            <div class="app-links">
+                <a href="#">Login</a>
+                <a href="#">Fale Conosco</a>
+
+            </div>
+        </div>
+    </div>
+
+    <main class="auth-content">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">Odontoprev</div>
+                    <h1 class="auth-title">Cadastro</h1>
+                    <p class="auth-subtitle">Crie sua conta no sistema de gestão</p>
+                </div>
+
+                <form class="auth-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" placeholder="Seu nome completo" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cro">CRO</label>
+                            <input type="text" id="cro" placeholder="Seu número CRO" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="especialidade">Especialidade</label>
+                        <select id="especialidade" required>
+                            <option value="" disabled selected>Selecione sua especialidade</option>
+                            <option value="ortodontia">Ortodontia</option>
+                            <option value="endodontia">Endodontia</option>
+                            <option value="clinico">Clínico Geral</option>
+                            <option value="odontopediatria">Odontopediatria</option>
+                            <option value="periodontia">Periodontia</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" placeholder="Seu e-mail" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel" id="telefone" placeholder="(00) 00000-0000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" placeholder="Crie uma senha" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">Confirmar senha</label>
+                        <input type="password" id="confirm-password" placeholder="Confirme sua senha" required>
+                    </div>
+
+                    <div class="form-terms">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">Li e concordo com os <a href="#">Termos de Serviço</a> e <a href="#">Política de Privacidade</a></label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Já possui uma conta? <a href="login.html">Fazer login</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

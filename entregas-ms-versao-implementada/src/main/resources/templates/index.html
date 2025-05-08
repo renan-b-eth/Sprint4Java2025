@@ -1,24 +1,471 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vendas</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Odontoprev - Sistema de Gestão de Dentistas</title>
+    <meta name="description" content="Sistema de gestão de dentistas da Odontoprev" />
+    <meta name="author" content="Odontoprev" />
+
+    <meta property="og:title" content="Odontoprev - Sistema de Gestão de Dentistas" />
+    <meta property="og:description" content="Sistema de gestão de dentistas da Odontoprev" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <style>
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          background-color: #f9fafb;
+          color: #111827;
+          line-height: 1.5;
+        }
+
+        .container {
+          width: 100%;
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 0 1rem;
+        }
+
+        .app-menu {
+          background-color: #1f2937;
+          color: white;
+          padding: 0.5rem 1rem;
+        }
+
+        .app-menu-container {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .app-icon {
+          padding: 0.25rem;
+          border-radius: 0.25rem;
+          cursor: pointer;
+        }
+
+        .app-icon:hover {
+          background-color: #374151;
+        }
+
+        .app-links {
+          display: flex;
+          gap: 1.5rem;
+          overflow-x: auto;
+          white-space: nowrap;
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+
+        .app-links::-webkit-scrollbar {
+          display: none;
+        }
+
+        .app-links a {
+          color: white;
+          text-decoration: none;
+          font-size: 0.875rem;
+        }
+
+        .app-links a:hover {
+          text-decoration: underline;
+        }
+
+        .main-nav {
+          background-color: white;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+          display: flex;
+          align-items: center;
+          height: 3rem;
+        }
+
+        .logo {
+          font-weight: bold;
+          font-size: 1.25rem;
+          margin-right: 2rem;
+        }
+
+        .nav-links {
+          display: flex;
+          gap: 1.5rem;
+        }
+
+        .nav-link {
+          text-decoration: none;
+          color: #6b7280;
+          font-size: 0.875rem;
+          padding: 0.75rem 0;
+        }
+
+        .nav-link:hover {
+          color: #111827;
+        }
+
+        .nav-link.active {
+          color: #111827;
+          font-weight: 500;
+          border-bottom: 2px solid #3b82f6;
+        }
+
+        .main-content {
+          padding-top: 1rem;
+          padding-bottom: 2rem;
+        }
+
+        .content-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.5rem;
+        }
+
+        .content-header h1 {
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
+
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 0.25rem;
+          font-weight: 500;
+          font-size: 0.875rem;
+          padding: 0.5rem 1rem;
+          cursor: pointer;
+          transition: all 0.2s ease-in-out;
+          border: none;
+        }
+
+        .btn-primary {
+          background-color: #3b82f6;
+          color: white;
+        }
+
+        .btn-primary:hover {
+          background-color: #2563eb;
+        }
+
+        .btn-icon {
+          padding: 0.5rem;
+          background-color: transparent;
+          color: #6b7280;
+        }
+
+        .btn-edit:hover {
+          color: #3b82f6;
+        }
+
+        .btn-delete:hover {
+          color: #ef4444;
+        }
+
+        /* Estilos para o card */
+        .card {
+          background-color: white;
+          border-radius: 0.5rem;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+          padding: 1rem;
+          border-bottom: 1px solid #e5e7eb;
+        }
+
+        .search-container {
+          display: flex;
+          gap: 0.5rem;
+        }
+
+        .search-input {
+          flex: 1;
+          border: 1px solid #d1d5db;
+          border-radius: 0.25rem;
+          padding: 0.5rem 0.75rem;
+          font-size: 0.875rem;
+        }
+
+        .search-btn {
+          background-color: #3b82f6;
+          color: white;
+          border: none;
+          border-radius: 0.25rem;
+          padding: 0.5rem 1rem;
+          font-size: 0.875rem;
+          cursor: pointer;
+        }
+
+        .search-btn:hover {
+          background-color: #2563eb;
+        }
+
+        .card-body {
+          padding: 1rem;
+          overflow-x: auto;
+        }
+
+        /* Estilos da tabela */
+        .dentista-table {
+          width: 100%;
+          border-collapse: separate;
+          border-spacing: 0;
+        }
+
+        .dentista-table th {
+          text-align: left;
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid #e5e7eb;
+          font-weight: 600;
+          font-size: 0.875rem;
+        }
+
+        .dentista-table td {
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid #e5e7eb;
+          font-size: 0.875rem;
+        }
+
+        .dentista-table tr:hover {
+          background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .actions-cell {
+          display: flex;
+          gap: 0.5rem;
+        }
+
+        /* Estilos para paginação */
+        .card-footer {
+          padding: 1rem;
+          border-top: 1px solid #e5e7eb;
+          display: flex;
+          justify-content: end;
+        }
+
+        .pagination {
+          display: flex;
+          gap: 0.25rem;
+        }
+
+        .pagination-btn {
+          padding: 0.5rem 0.75rem;
+          border: 1px solid #d1d5db;
+          border-radius: 0.25rem;
+          background-color: white;
+          font-size: 0.875rem;
+          cursor: pointer;
+        }
+
+        .pagination-btn:hover:not(.disabled) {
+          background-color: #f3f4f6;
+        }
+
+        .pagination-btn.active {
+          background-color: #3b82f6;
+          color: white;
+          border-color: #3b82f6;
+        }
+
+        .pagination-btn.disabled {
+          color: #9ca3af;
+          cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+          .content-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+          }
+
+          .search-container {
+            flex-direction: column;
+          }
+
+          .card-footer {
+            justify-content: center;
+          }
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
-<div class="max-w-4xl mx-auto p-4">
 
-    <div th:replace="~{fragments.html :: navbar(${screen})}"></div>
-
-    <div class="bg-white p-4 mt-4 shadow-md rounded-md">
-        <h1 class="text-2xl font-bold text-gray-800 mb-4 text-center" th:text="#{welcome.message}">Bem-vindo ao sistema
-            de entregas</h1>
-        <div id="lottie-container" class="w-80 h-80 flex items-center justify-center mx-auto"></div>
-        <script src="/js/home.js"></script>
+<body>
+<div class="app">
+    <div class="app-menu">
+        <div class="app-menu-container">
+            <div class="app-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+            </div>
+            <div class="app-links">
+                <a href="#">Inicio</a>
+                <a href="#">Cadastro</a>
+                <a href="#">Contato</a>
+            </div>
+        </div>
     </div>
 
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">Odontoprev</div>
+                <div class="nav-links">
+                    <a href="#" class="nav-link">Clínicas</a>
+                    <a href="#" class="nav-link active">Dentistas</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-header">
+                <h1>Dentistas</h1>
+                <div class="actions">
+                    <button class="btn btn-primary">Novo Dentista</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="search-container">
+                        <input type="text" placeholder="Buscar dentista..." class="search-input">
+                        <button class="search-btn">Buscar</button>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <table class="dentista-table">
+                        <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CRO</th>
+                            <th>Especialidade</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Dr. Carlos Oliveira</td>
+                            <td>CRO-SP 12345</td>
+                            <td>Ortodontia</td>
+                            <td>carlos.oliveira@exemplo.com</td>
+                            <td>(11) 98765-4321</td>
+                            <td class="actions-cell">
+                                <button class="btn btn-icon btn-edit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                </button>
+                                <button class="btn btn-icon btn-delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Dra. Mariana Silva</td>
+                            <td>CRO-SP 54321</td>
+                            <td>Endodontia</td>
+                            <td>mariana.silva@exemplo.com</td>
+                            <td>(11) 91234-5678</td>
+                            <td class="actions-cell">
+                                <button class="btn btn-icon btn-edit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                </button>
+                                <button class="btn btn-icon btn-delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Dr. Fernando Costa</td>
+                            <td>CRO-SP 98765</td>
+                            <td>Clínico Geral</td>
+                            <td>fernando.costa@exemplo.com</td>
+                            <td>(11) 97777-8888</td>
+                            <td class="actions-cell">
+                                <button class="btn btn-icon btn-edit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                </button>
+                                <button class="btn btn-icon btn-delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Dra. Juliana Santos</td>
+                            <td>CRO-SP 45678</td>
+                            <td>Odontopediatria</td>
+                            <td>juliana.santos@exemplo.com</td>
+                            <td>(11) 95555-6666</td>
+                            <td class="actions-cell">
+                                <button class="btn btn-icon btn-edit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                </button>
+                                <button class="btn btn-icon btn-delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer">
+                    <div class="pagination">
+                        <button class="pagination-btn disabled">Anterior</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn">Próximo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
 </body>
 </html>
