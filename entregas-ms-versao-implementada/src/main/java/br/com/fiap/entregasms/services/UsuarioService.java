@@ -1,7 +1,7 @@
-package com.fiap.odontoprev.odontoprev.service;
+package br.com.fiap.entregasms.services;
 
 
-import com.fiap.odontoprev.odontoprev.model.Usuario;
+import br.com.fiap.entregasms.models.Usuario;
 
 import java.util.List;
 import java.util.Optional;

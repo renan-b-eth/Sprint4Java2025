@@ -1,4 +1,4 @@
-package com.fiap.odontoprev.odontoprev.model;
+package br.com.fiap.entregasms.models;
 
 import lombok.Data;
 

@@ -1,10 +1,11 @@
-package com.fiap.odontoprev.odontoprev.controller;
+package br.com.fiap.entregasms.controllers;
 
 
-import com.fiap.odontoprev.odontoprev.mapper.UsuarioDtoMapper;
-import com.fiap.odontoprev.odontoprev.model.Usuario;
-import com.fiap.odontoprev.odontoprev.request.UsuarioCreateRequest;
-import com.fiap.odontoprev.odontoprev.request.UsuarioLoginRequest;
+import br.com.fiap.entregasms.dtos.UsuarioDtoMapper;
+import br.com.fiap.entregasms.models.Usuario;
+import br.com.fiap.entregasms.request.UsuarioCreateRequest;
+import br.com.fiap.entregasms.request.UsuarioLoginRequest;
+import br.com.fiap.entregasms.services.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import com.fiap.odontoprev.odontoprev.service.UsuarioService;
 
 @Slf4j
 @Controller

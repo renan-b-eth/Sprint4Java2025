@@ -1,4 +1,4 @@
-package com.fiap.odontoprev.odontoprev.request;
+package br.com.fiap.entregasms.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
