@@ -5,7 +5,6 @@ import br.com.fiap.entregasms.services.EntregaService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
-import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -23,7 +22,6 @@ class PedidoEntregaConsumer {
 
 
     @Transactional
-    @JmsListener(destination = "pedido.queue")
     public void consume(String message) throws JsonProcessingException {
         // transformar string em entrega
         final MessageInput input = this.objectMapper.readValue(message,MessageInput.class);
