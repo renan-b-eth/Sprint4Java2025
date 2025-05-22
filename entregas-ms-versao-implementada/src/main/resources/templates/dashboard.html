@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title th:text="#{app.name}">Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <style>
         /* Estilos básicos para o dashboard */
@@ -113,7 +113,7 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 1.05em;
-            width: auto; /* Para não ocupar 100% da largura */
+            width: auto;
         }
         .dentista-form button:hover {
             background-color: #218838;
@@ -136,16 +136,29 @@
             color: #155724;
             border-color: #c3e6cb;
         }
+
+        .language-switcher {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .language-switcher a {
+            margin: 0 5px;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 <div class="dashboard-container">
     <div class="header">
-        <h1>Bem-vindo ao Dashboard!</h1>
+        <h1 th:text="#{welcome.message}">Bem-vindo ao Dashboard!</h1>
         <div sec:authorize="isAuthenticated()">
-            <p>Usuário logado: <span sec:authentication="name"></span></p>
+            <p>
+                <span th:text="#{user.logged.in}">Usuário logado:</span>
+                <span sec:authentication="name"></span>
+            </p>
             <form th:action="@{/logout}" method="post" class="logout-form">
-                <button type="submit">Sair</button>
+                <button type="submit" th:text="#{logout.button}">Sair</button>
             </form>
         </div>
     </div>
@@ -157,45 +170,49 @@
         <span th:text="${errorMessage}"></span>
     </div>
 
-    <h2>Dentistas em Destaque</h2>
+    <h2 th:text="#{dentist.highlight.title}">Dentistas em Destaque</h2>
     <div th:if="${#lists.isEmpty(dentistas)}" class="info-message">
-        Nenhum dentista cadastrado ainda.
+        <span th:text="#{no.dentists.registered}">Nenhum dentista cadastrado ainda.</span>
     </div>
     <div class="dentista-list">
         <div th:each="dentista : ${dentistas}" class="dentista-card">
             <h3 th:text="${dentista.nome}">Nome do Dentista</h3>
             <p><strong>CRO:</strong> <span th:text="${dentista.cro}">CRO</span></p>
-            <p><strong>Especialidade:</strong> <span th:text="${dentista.especialidade}">Especialidade</span></p>
-            <p><strong>Email:</strong> <span th:text="${dentista.email}">Email</span></p>
-            <p><strong>Telefone:</strong> <span th:text="${dentista.telefone}">Telefone</span></p>
+            <p><strong th:text="#{dentist.form.specialty}">Especialidade:</strong> <span th:text="${dentista.especialidade}">Especialidade</span></p>
+            <p><strong th:text="#{dentist.form.email}">Email:</strong> <span th:text="${dentista.email}">Email</span></p>
+            <p><strong th:text="#{dentist.form.phone}">Telefone:</strong> <span th:text="${dentista.telefone}">Telefone</span></p>
         </div>
     </div>
 
     <div class="dentista-form">
-        <h2>Cadastrar Novo Dentista</h2>
+        <h2 th:text="#{dentist.form.title}">Cadastrar Novo Dentista</h2>
         <form th:action="@{/dentistas}" th:object="${novoDentista}" method="post">
-            <label for="nome">Nome:</label>
+            <label for="nome" th:text="#{dentist.form.name}">Nome:</label>
             <input type="text" id="nome" th:field="*{nome}" required>
             <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="error-message"></span>
 
-            <label for="cro">CRO:</label>
+            <label for="cro" th:text="#{dentist.form.cro}">CRO:</label>
             <input type="text" id="cro" th:field="*{cro}" required>
             <span th:if="${#fields.hasErrors('cro')}" th:errors="*{cro}" class="error-message"></span>
 
-            <label for="especialidade">Especialidade:</label>
+            <label for="especialidade" th:text="#{dentist.form.specialty}">Especialidade:</label>
             <input type="text" id="especialidade" th:field="*{especialidade}" required>
             <span th:if="${#fields.hasErrors('especialidade')}" th:errors="*{especialidade}" class="error-message"></span>
 
-            <label for="email">Email:</label>
+            <label for="email" th:text="#{dentist.form.email}">Email:</label>
             <input type="email" id="email" th:field="*{email}" required>
             <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"></span>
 
-            <label for="telefone">Telefone:</label>
+            <label for="telefone" th:text="#{dentist.form.phone}">Telefone:</label>
             <input type="text" id="telefone" th:field="*{telefone}" required>
             <span th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}" class="error-message"></span>
 
-            <button type="submit">Cadastrar Dentista</button>
+            <button type="submit" th:text="#{dentist.button.add}">Cadastrar Dentista</button>
         </form>
+    </div>
+    <div class="language-switcher">
+        <a th:href="@{/dashboard(lang='pt_BR')}">Português</a> |
+        <a th:href="@{/dashboard(lang='en')}">English</a>
     </div>
 </div>
 </body>

@@ -5,6 +5,7 @@ import br.com.fiap.entregasms.models.Usuario;
 import br.com.fiap.entregasms.services.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource; // Importar MessageSource
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,43 +14,46 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Locale; // Importar Locale
+
 @Controller
 public class AuthController {
 
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private MessageSource messageSource; // Injetar MessageSource
+
     @GetMapping("/login")
     public String showLoginForm() {
-        return "login"; // Nome do arquivo Thymeleaf
+        return "login";
     }
 
     @GetMapping("/registro")
     public String showRegistrationForm(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "registro"; // Nome do arquivo Thymeleaf
+        return "registro";
     }
 
     @PostMapping("/registro")
     public String registerUser(@Valid @ModelAttribute("usuario") Usuario usuario,
                                BindingResult result,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes,
+                               Locale locale) { // Injetar Locale para obter o idioma atual
         if (result.hasErrors()) {
-            // Se houver erros de validação (ex: nome em branco), retorna para o formulário
             return "registro";
         }
 
         try {
             usuarioService.registrarNovoUsuario(usuario);
-            redirectAttributes.addFlashAttribute("successMessage", "Usuário registrado com sucesso! Faça login.");
-            return "redirect:/login"; // Redireciona para a página de login
+            redirectAttributes.addFlashAttribute("successMessage", messageSource.getMessage("register.success", null, locale));
+            return "redirect:/login";
         } catch (IllegalArgumentException e) {
-            // Captura o erro de email duplicado do serviço
-            result.rejectValue("email", "error.usuario", e.getMessage());
-            return "registro"; // Retorna para o formulário com o erro no campo email
+            result.rejectValue("email", "error.usuario", messageSource.getMessage("register.error.email.exists", null, locale));
+            return "registro";
         } catch (Exception e) {
-            // Outros erros inesperados
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao registrar: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", messageSource.getMessage("register.error.generic", new Object[]{e.getMessage()}, locale));
             return "redirect:/registro";
         }
     }

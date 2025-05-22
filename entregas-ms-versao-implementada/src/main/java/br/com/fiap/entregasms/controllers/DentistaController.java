@@ -5,6 +5,7 @@ import br.com.fiap.entregasms.models.Dentista;
 import br.com.fiap.entregasms.repositories.DentistaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource; // Importar MessageSource
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,23 +16,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale; // Importar Locale
 import java.util.stream.Collectors;
 
 @Controller
 public class DentistaController {
 
     @Autowired
-    private DentistaRepository dentistaRepository; // Ou private DentistaService dentistaService;
+    private DentistaRepository dentistaRepository;
 
-    // Se você estiver usando o DentistaService:
-    // private final DentistaService dentistaService;
-    // public DentistaController(DentistaService dentistaService) {
-    //     this.dentistaService = dentistaService;
-    // }
+    @Autowired
+    private MessageSource messageSource; // Injetar MessageSource
 
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
-        List<Dentista> todosDentistas = dentistaRepository.findAll(); // Ou dentistaService.findAll();
+        List<Dentista> todosDentistas = dentistaRepository.findAll();
 
         Collections.shuffle(todosDentistas);
         List<Dentista> dentistasAleatorios = todosDentistas.stream()
@@ -47,21 +46,23 @@ public class DentistaController {
     public String saveDentista(@Valid @ModelAttribute("novoDentista") Dentista dentista,
                                BindingResult result,
                                RedirectAttributes redirectAttributes,
-                               Model model) {
+                               Model model,
+                               Locale locale) { // Injetar Locale
         if (result.hasErrors()) {
-            List<Dentista> todosDentistas = dentistaRepository.findAll(); // Ou dentistaService.findAll();
+            List<Dentista> todosDentistas = dentistaRepository.findAll();
             Collections.shuffle(todosDentistas);
             List<Dentista> dentistasAleatorios = todosDentistas.stream().limit(5).collect(Collectors.toList());
             model.addAttribute("dentistas", dentistasAleatorios);
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao cadastrar dentista. Verifique os campos.");
+
+            redirectAttributes.addFlashAttribute("errorMessage", messageSource.getMessage("dentist.error.add", null, locale));
             return "dashboard";
         }
 
         try {
-            dentistaRepository.save(dentista); // Ou dentistaService.save(dentista);
-            redirectAttributes.addFlashAttribute("successMessage", "Dentista cadastrado com sucesso!");
+            dentistaRepository.save(dentista);
+            redirectAttributes.addFlashAttribute("successMessage", messageSource.getMessage("dentist.success.add", null, locale));
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao cadastrar dentista: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", messageSource.getMessage("dentist.error.add", new Object[]{e.getMessage()}, locale));
         }
 
         return "redirect:/dashboard";
