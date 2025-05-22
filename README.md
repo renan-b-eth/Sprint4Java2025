@@ -19,3 +19,5 @@ Vá para a página de downloads do RabbitMQ: https://www.rabbitmq.com/install-wi
 
 
 # Video
+
+https://youtu.be/OeTKcx_JnaA
