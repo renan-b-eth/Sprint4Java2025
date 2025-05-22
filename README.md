@@ -3,6 +3,9 @@
 Usar jdk 17 ( recomendado )
 abrir o arquivo entregas-ms-versao-implementada na opção open
 
+# O Localhost é na porta 8081
+http://localhost:8081/login
+
 # mensageria pegando, porém não estamos usando uma imagem docker.
 Então você precisa instalar o RabbitMQ localmente 
 Vá para o site oficial do Erlang: https://www.erlang.org/downloads
