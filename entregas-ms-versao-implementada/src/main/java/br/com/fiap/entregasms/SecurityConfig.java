@@ -1,70 +1,80 @@
-package br.com.fiap.entregasms; // ou o seu pacote de configuração, ex: br.com.fiap.entregasms.config
+// src/main/java/br/com/fiap/entregasms/config/SecurityConfig.java
+package br.com.fiap.entregasms;
 
+import br.com.fiap.entregasms.services.UsuarioService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService; // Importe esta interface
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // 1. Define o PasswordEncoder como um Bean
+    // REMOVA ESTA LINHA: @Autowired private UsuarioService usuarioService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 2. Define o SecurityFilterChain para configurar as regras de segurança HTTP
+    // O método configureGlobal deve receber o UsuarioService como parâmetro
+    // e o AuthenticationManagerBuilder é passado pelo Spring automaticamente
+    // em um método que tem essa assinatura com @Autowired.
+    // Assim, removemos a injeção de campo.
+    // É importante que este método esteja aqui para configurar o AuthenticationManager.
+    // No Spring Boot 3, não é mais necessário o @Autowired neste método, mas ele ainda pode ser útil
+    // se você tiver mais de um UserDetailsService e precisar especificar qual usar.
+    // No entanto, para evitar confusão de dependências, vamos refatorar configureGlobal
+    // para ser acionado por um método do SecurityFilterChain.
+
+    // A maneira mais limpa no Spring Security 6+ é fazer a configuração do UserDetailsService
+    // diretamente no AuthenticationManagerBuilder que é injetado no SecurityFilterChain.
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, UsuarioService usuarioService) throws Exception {
+        // Configura o AuthenticationManagerBuilder diretamente aqui
+        // ou você pode ter um método auxiliar se a lógica for mais complexa
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+
+        authenticationManagerBuilder
+                .userDetailsService(usuarioService)
+                .passwordEncoder(passwordEncoder()); // passwordEncoder() é um bean do SecurityConfig
+
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        // Permite acesso público a estas URLs
-                        .requestMatchers("/login", "/register", "/css/**", "/h2-console/**").permitAll()
-                        // Todas as outras requisições exigem autenticação
+                        .requestMatchers(
+                                "/registro", "/registro/**",
+                                "/login", "/login/**",
+                                "/css/**", "/js/**", "/images/**",
+                                "/h2-console/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
-                // Configuração de formulário de login
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/home", true) // Redireciona para /home após login bem-sucedido
-                        .permitAll() // Permite acesso à página de login
+                        .defaultSuccessUrl("/dashboard", true)
+                        .failureUrl("/login?error")
+                        .permitAll()
                 )
-                // Configuração de logout
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // URL para processar o logout
-                        .logoutSuccessUrl("/login?logout") // Redireciona após logout bem-sucedido
-                        .permitAll() // Permite acesso ao endpoint de logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
                 )
-                // Desabilita CSRF para o console H2 (se usado)
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/h2-console/**")
                 )
-                // Permite frames para o console H2
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.sameOrigin())
                 );
         return http.build();
     }
 
-    // 3. Define o AuthenticationManager como um Bean (NOVO!)
-    // Este bean será injetado em seu DentistaService indiretamente.
-    // O Spring Boot detecta automaticamente o UserDetailsService e o PasswordEncoder.
-    @Bean
-    public AuthenticationManager authenticationManager(
-            UserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder);
-        return new ProviderManager(authenticationProvider);
-    }
+
 }

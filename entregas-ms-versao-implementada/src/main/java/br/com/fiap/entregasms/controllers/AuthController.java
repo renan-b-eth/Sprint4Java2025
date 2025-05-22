@@ -1,8 +1,8 @@
+// src/main/java/br/com/fiap/entregasms/controller/AuthController.java
 package br.com.fiap.entregasms.controllers;
 
-
-import br.com.fiap.entregasms.models.Dentista;
-import br.com.fiap.entregasms.services.DentistaService;
+import br.com.fiap.entregasms.models.Usuario;
+import br.com.fiap.entregasms.services.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,38 +11,46 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AuthController {
 
     @Autowired
-    private DentistaService dentistaService;
+    private UsuarioService usuarioService;
 
     @GetMapping("/login")
-    public String showLoginPage() {
-        return "login"; // Retorna o nome do arquivo Thymeleaf (login.html)
+    public String showLoginForm() {
+        return "login"; // Nome do arquivo Thymeleaf
     }
 
-    @GetMapping("/register")
-    public String showRegisterPage(Model model) {
-        model.addAttribute("dentista", new Dentista()); // Adiciona um novo objeto Dentista para o formulário
-        return "register"; // Retorna o nome do arquivo Thymeleaf (register.html)
+    @GetMapping("/registro")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "registro"; // Nome do arquivo Thymeleaf
     }
 
-    @PostMapping("/register")
-    public String registerDentista(@Valid @ModelAttribute("dentista") Dentista dentista, BindingResult result, Model model) {
+    @PostMapping("/registro")
+    public String registerUser(@Valid @ModelAttribute("usuario") Usuario usuario,
+                               BindingResult result,
+                               RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            // Se houver erros de validação, retorna para a página de registro com os erros
-            return "register";
+            // Se houver erros de validação (ex: nome em branco), retorna para o formulário
+            return "registro";
         }
 
         try {
-            dentistaService.cadastrarDentista(dentista);
-            model.addAttribute("successMessage", "Cadastro realizado com sucesso! Faça o login.");
-            return "login"; // Redireciona para a página de login após o cadastro
+            usuarioService.registrarNovoUsuario(usuario);
+            redirectAttributes.addFlashAttribute("successMessage", "Usuário registrado com sucesso! Faça login.");
+            return "redirect:/login"; // Redireciona para a página de login
         } catch (IllegalArgumentException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "register"; // Retorna para a página de registro com a mensagem de erro
+            // Captura o erro de email duplicado do serviço
+            result.rejectValue("email", "error.usuario", e.getMessage());
+            return "registro"; // Retorna para o formulário com o erro no campo email
+        } catch (Exception e) {
+            // Outros erros inesperados
+            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao registrar: " + e.getMessage());
+            return "redirect:/registro";
         }
     }
 }

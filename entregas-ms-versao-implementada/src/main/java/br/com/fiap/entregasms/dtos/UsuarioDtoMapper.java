@@ -14,24 +14,24 @@ public class UsuarioDtoMapper {
         Usuario usuario = new Usuario();
 
         usuario.setNome(usuarioCreateRequest.getNome());
-        usuario.setCpf(usuarioCreateRequest.getCpf());
+        /*usuario.setCpf(usuarioCreateRequest.getCpf());
         usuario.setDataNascimento(usuarioCreateRequest.getDataNascimento());
-        usuario.setSenha(usuarioCreateRequest.getSenha());
+        usuario.setSenha(usuarioCreateRequest.getSenha());*/
         return usuario;
     }
 
     public Usuario converterUsuarioUpdateDto(UsuarioUpdateRequest usuarioUpdateRequest) {
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioUpdateRequest.getNome());
-        usuario.setSenha(usuarioUpdateRequest.getSenha());
+        /*usuario.setSenha(usuarioUpdateRequest.getSenha());*/
         return usuario;
     }
 
 
     public Usuario converterUsuarioLoginDto(UsuarioLoginRequest usuarioLoginRequest) {
         Usuario usuario = new Usuario();
-        usuario.setCpf(usuarioLoginRequest.getCpf());
-        usuario.setSenha(usuarioLoginRequest.getSenha());
+        /*usuario.setCpf(usuarioLoginRequest.getCpf());
+        usuario.setSenha(usuarioLoginRequest.getSenha());*/
         return usuario;
     }
 }

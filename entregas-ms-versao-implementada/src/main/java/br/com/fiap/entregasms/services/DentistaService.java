@@ -1,34 +1,39 @@
-package br.com.fiap.entregasms.services; // Ou seu pacote correto
+// src/main/java/br/com/fiap/entregasms/service/DentistaService.java
+package br.com.fiap.entregasms.services;
 
-import br.com.fiap.entregasms.models.Dentista; // Sua classe Dentista
+import br.com.fiap.entregasms.models.Dentista;
 import br.com.fiap.entregasms.repositories.DentistaRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired; // Pode remover se usar apenas construtor
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
-public class DentistaService implements UserDetailsService {
+public class DentistaService {
 
+    // Certifique-se de que a injeção é APENAS do DentistaRepository
     private final DentistaRepository dentistaRepository;
-    private final PasswordEncoder passwordEncoder; // Mantenha isso!
 
-    // Injeção de dependência via construtor
-    public DentistaService(DentistaRepository dentistaRepository, PasswordEncoder passwordEncoder) {
+    // Construtor para injeção de dependência. É a forma mais limpa.
+    public DentistaService(DentistaRepository dentistaRepository) {
         this.dentistaRepository = dentistaRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return dentistaRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
+    // Métodos de negócio do DentistaService
+    public List<Dentista> findAll() {
+        return dentistaRepository.findAll();
     }
 
-    public Dentista cadastrarDentista(Dentista dentista) {
-        // Usa o passwordEncoder injetado
-        dentista.setSenha(passwordEncoder.encode(dentista.getSenha()));
+    public Optional<Dentista> findById(Long id) {
+        return dentistaRepository.findById(id);
+    }
+
+    public Dentista save(Dentista dentista) {
         return dentistaRepository.save(dentista);
+    }
+
+    public void deleteById(Long id) {
+        dentistaRepository.deleteById(id);
     }
 }

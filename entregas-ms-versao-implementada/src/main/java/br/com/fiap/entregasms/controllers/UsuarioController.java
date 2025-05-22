@@ -58,9 +58,9 @@ public class UsuarioController {
         try {
             Usuario usuario = usuarioDtoMapper.converterUsuarioDto(usuarioDto);
 
-            usuarioService.cadastrarUsuario(usuario);
+            /*usuarioService.cadastrarUsuario(usuario);*/
 
-            log.info("Usuário cadastrado com sucesso: {}", usuario.getCpf());
+
 
             modelAndView.setViewName("redirect:/usuario/login");
         } catch (Exception e) {
@@ -98,9 +98,9 @@ public class UsuarioController {
         ModelAndView modelAndView = new ModelAndView();
 
         try {
-            String token = usuarioService.validarLogin(usuarioLoginRequest.getCpf(), usuarioLoginRequest.getSenha());
+            /*String token = usuarioService.validarLogin(usuarioLoginRequest.getCpf(), usuarioLoginRequest.getSenha());*/
 
-            session.setAttribute("token", token);
+            /*session.setAttribute("token", token);*/
 
             log.info("Usuário logado com sucesso: {}", usuarioLoginRequest.getCpf());
 

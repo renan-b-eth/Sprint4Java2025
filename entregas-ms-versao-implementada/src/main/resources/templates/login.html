@@ -3,53 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - DentistaCare</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .login-container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-    </style>
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div class="login-container">
-    <h2 class="text-center mb-4">Login</h2>
-
-    <div th:if="${param.error}" class="alert alert-danger" role="alert">
-        Email ou senha inválidos.
-    </div>
-    <div th:if="${param.logout}" class="alert alert-info" role="alert">
-        Você foi desconectado.
-    </div>
-    <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}">
-    </div>
-
+<div class="container">
+    <h1>Login</h1>
     <form th:action="@{/login}" method="post">
-        <div class="form-group">
-            <label for="username">Email:</label>
-            <input type="email" id="username" name="username" class="form-control" required autofocus>
+        <div th:if="${param.error}" class="error-message">
+            Email ou senha inválidos.
         </div>
-        <div class="form-group">
-            <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" class="form-control" required>
+        <div th:if="${param.logout}" class="success-message">
+            Você foi desconectado.
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+        <div th:if="${successMessage}" class="success-message">
+            <span th:text="${successMessage}"></span>
+        </div>
+
+        <label for="username">Email:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Entrar</button>
     </form>
-    <div class="text-center mt-3">
-        Não tem uma conta? <a th:href="@{/register}">Cadastre-se aqui</a>
-    </div>
+    <p>Não tem uma conta? <a th:href="@{/registro}">Registre-se aqui</a>.</p>
 </div>
 </body>
 </html>
