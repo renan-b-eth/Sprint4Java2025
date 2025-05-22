@@ -1,18 +1,19 @@
-# Mensageria com Spring Boot e ActiveMQ
+# Como rodar o projeto
 
-### Excalidraw
+Usar jdk 21 ( recomendado )
+abrir o arquivo entregas-ms-versao-implementada na opção open
 
-[Aula do dia 15/04/2025](https://link.excalidraw.com/p/readonly/Ib7x4fbckPXCD7VdHVDW)
+# O Localhost é na porta 8081
+http://localhost:8081/login
 
-### Tecnologias utilizadas neste repositório
+# mensageria pegando, porém não estamos usando uma imagem docker.
+Então você precisa instalar o RabbitMQ localmente 
+Vá para o site oficial do Erlang: https://www.erlang.org/downloads
+Vá para a página de downloads do RabbitMQ: https://www.rabbitmq.com/install-windows.html
 
-* Spring MVC
-* Thymeleaf
-* Spring Data JPA
-* Internacionalização
-* Spring Security com OAuth2
-* Messaging (O conteúdo foco)
+# Não foi possivel usar a spring-ai pois não está no maven2
+![image](https://github.com/user-attachments/assets/a2c1bad4-2c35-4cf7-ba70-81a58c50ccb1)
 
-### Material de apoio 
 
-Material de apoio em [vendas-ms](https://github.com/fiap-2tdsps/vendas-ms).
+# Video
+https://youtu.be/OeTKcx_JnaA
