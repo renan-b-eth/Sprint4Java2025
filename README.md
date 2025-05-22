@@ -1,6 +1,6 @@
 # Como rodar o projeto
 
-Usar jdk 17 ( recomendado )
+Usar jdk 21 ( recomendado )
 abrir o arquivo entregas-ms-versao-implementada na opção open
 
 # O Localhost é na porta 8081
